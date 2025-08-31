@@ -18,50 +18,74 @@ Given the instruction string, construct the maze programmatically.
 
 Example:
 Input: FFRFRBRFBFRBRFLF
-Output: (A/W maze grid)
+Output: 
+7 5
+WWWWW
+AAAWW
+WWAWW
+WAAAW
+WWAWW
+WWAWW
+WWWWW
 */
+
+
 
 #include <bits/stdc++.h>
 using namespace std;
 
 int main() {
-    string instr;
-    cin >> instr;
+    string moves;
+    cin >> moves;
 
-    map<pair<int,int>, char> maze;
-    int x = 0, y = 0;
-    maze[{x,y}] = 'A';
+    // Directions: right, down, left, up
+    int dx[4] = {0, 1, 0, -1};
+    int dy[4] = {1, 0, -1, 0};
 
-    // Directions: 0=up,1=right,2=down,3=left
-    int dir = 1; // start facing right
-    int dx[4] = {-1,0,1,0};
-    int dy[4] = {0,1,0,-1};
+    // Track visited positions
+    set<pair<int,int>> visited;
+    int x = 0, y = 0; // starting point
+    int dir = 0; // facing right
 
-    for (char c : instr) {
-        if (c == 'R') dir = (dir + 1) % 4;
-        else if (c == 'L') dir = (dir + 3) % 4;
-        else if (c == 'B') dir = (dir + 2) % 4;
-        else if (c == 'F') {
+    visited.insert({x,y});
+
+    for(char c : moves) {
+        if(c == 'F') {
             x += dx[dir];
             y += dy[dir];
-            maze[{x,y}] = 'A';
+            visited.insert({x,y});
         }
+        else if(c == 'R') dir = (dir + 1) % 4;
+        else if(c == 'L') dir = (dir + 3) % 4;
+        else if(c == 'B') dir = (dir + 2) % 4;
     }
 
-    int minX=INT_MAX,maxX=INT_MIN,minY=INT_MAX,maxY=INT_MIN;
-    for (auto &p : maze) {
-        minX = min(minX, p.first.first);
-        maxX = max(maxX, p.first.first);
-        minY = min(minY, p.first.second);
-        maxY = max(maxY, p.first.second);
+    // Find bounds
+    int minx=1e9, maxx=-1e9, miny=1e9, maxy=-1e9;
+    for(auto [xx,yy] : visited) {
+        minx = min(minx, xx);
+        maxx = max(maxx, xx);
+        miny = min(miny, yy);
+        maxy = max(maxy, yy);
     }
 
-    for (int i=minX-1;i<=maxX+1;i++) {
-        for (int j=minY-1;j<=maxY+1;j++) {
-            if (maze.count({i,j})) cout << 'A';
-            else cout << 'W';
-        }
+    int rows = maxx - minx + 3; // +3 for border
+    int cols = maxy - miny + 3;
+
+    vector<vector<char>> maze(rows, vector<char>(cols,'W'));
+
+    // Mark path as 'A'
+    for(auto [xx,yy] : visited) {
+        int r = xx - minx + 1;
+        int c = yy - miny + 1;
+        maze[r][c] = 'A';
+    }
+
+    cout << rows << " " << cols << "\n";
+    for(int i=0;i<rows;i++) {
+        for(int j=0;j<cols;j++) cout << maze[i][j];
         cout << "\n";
     }
+
     return 0;
 }

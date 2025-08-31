@@ -25,6 +25,44 @@ Z → initial heal power
 Output:
 If he survives, print remaining heal power.
 If he dies, print: "Died <extra_power_needed>".
+
+Eg - 
+Input 1
+9 8
+4
+4
+0 0 0 1 1 0 1 1
+7
+0 4 1 3 1 4 1 5 2 3 2 4 2 5
+9
+6 0 6 1 7 0 7 1 7 2 8 0 8 1 8 2 8 3
+9
+5 5 6 5 6 6 6 7 7 5 7 6 7 7 8 5 8 6 8 7
+1 2
+2 3 2 4 2 5 3 3 3 4 3 5 4 3 4 4 4 5 5 3 5 4 5 5
+6 0
+120
+
+Sample Output1:
+78
+
+
+Input 2
+7 7
+3
+4
+2 0 2 1 3 1 3 2
+6
+0 4 0 5 0 6 1 4 1 5 1 6
+4
+5 4 6 4 6 5 6 6
+9
+3 4 3 5 3 6 4 4 4 5 4 6 5 4 5 5 5 6 
+3 2
+18
+
+output 2:
+Died 2
 */
 
 #include <bits/stdc++.h>
